@@ -124,7 +124,7 @@ public class Autotable {
         String Firstname=driver.findElement(By.xpath("//*[@id=\"table2\"]/tbody/tr[" + k + "]/td[2]")).getText();
         System.out.println("Firstname of minimum due " + Firstname);
         String Email=driver.findElement(By.xpath("//*[@id=\"table2\"]/tbody/tr[" + k + "]/td[3]")).getText();
-        System.out.println("Firstname of minimum due " + Email);
+        System.out.println("email of minimum due " + Email);
     }
     @Test
     public void test4(){
