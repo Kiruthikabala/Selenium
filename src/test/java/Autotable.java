@@ -17,7 +17,7 @@ public class Autotable {
     public WebDriver driver ;
 
     @BeforeTest
-    public void launch(){
+    public void launch1(){
         System.out.println("launch the browser");
         System.setProperty("webdriver.chrome.driver","C:\\Users\\Kiruthika.B\\Downloads\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
