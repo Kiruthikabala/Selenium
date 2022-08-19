@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -8,18 +9,26 @@ import org.testng.annotations.Test;
 import org.testng.asserts.Assertion;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Autotable {
 
     public WebDriver driver ;
-
 
     @BeforeTest
     public void launch(){
         System.out.println("launch the browser");
         System.setProperty("webdriver.chrome.driver","C:\\Users\\Kiruthika.B\\Downloads\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
-                driver.get("http://the-internet.herokuapp.com/tables");
+        //Firefox
+       // System.setProperty("webdriver.gecko.driver", "C:\\Users\\Kiruthika.B\\Downloads\\geckodriver");
+       // WebDriver driver1 = new FirefoxDriver();
+        //Microsoft Edge
+        // System.setProperty("webdriver.edge.driver", "C:\\Users\\Kiruthika.B\\Downloads\\msedgedriver");
+        //WebDriver driver2 = new EdgeDriver();
+        driver.get("http://the-internet.herokuapp.com/tables");
+        driver.manage().window().maximize();
     };
 
     @Test
@@ -27,13 +36,14 @@ public class Autotable {
     String titleofpageactual=driver.getTitle();
         System.out.println(titleofpageactual);
         Assert.assertEquals(titleofpageactual,"The Internet");
-    String titleonpageactual=driver.findElement(By.xpath("//*[@id='content']/div/h3")).getText();
+    String titleonpageactual=driver.findElement(By.xpath("//*[text()='Data Tables']")).getText();
         System.out.println(titleonpageactual);
         Assert.assertEquals(titleonpageactual,"Data Tables");
     String title2onpageactual=driver.findElement(By.xpath("//*[@id='content']/div/h4[1]")).getText();
         System.out.println(title2onpageactual);
         Assert.assertEquals(title2onpageactual,"Example 1");
-    String title3onpageactual=driver.findElement(By.xpath("//*[@id='content']/div/h4[2]")).getText();
+    //String title3onpageactual=driver.findElement(By.xpath("//div/h4[2]")).getText();
+        String title3onpageactual=driver.findElement(By.xpath("//h4[2]")).getText();
         System.out.println(title3onpageactual);
         Assert.assertEquals(title3onpageactual,"Example 2");
     }
@@ -89,6 +99,7 @@ public class Autotable {
             }
         Assert.assertEquals(j,50);
 
+
         }
 
     @Test
@@ -138,10 +149,27 @@ public class Autotable {
                 j++;
             }
             i++;
-
         }
-
     }
+
+    @Test
+    public void test5(){
+        List<WebElement> Due=driver.findElements(By.xpath("//td[@class='dues']"));
+        ArrayList<Double> minvalue= new ArrayList<>();
+        for(int i=0;i<Due.size();i++)
+        {
+           minvalue.add(Double.parseDouble(Due.get(i).getText().replace("$","")));
+        }
+        System.out.println(Collections.max(minvalue));
+        for(int i=0;i<Due.size();i++){
+            if (Double.parseDouble(Due.get(i).getText().replace("$",""))==(Collections.max(minvalue))){
+                System.out.println(driver.findElement(By.xpath("(//td[@class='dues'])["+(i+1)+"]")).getText());
+                System.out.println(driver.findElement(By.xpath("(//td[@class='last-name'])["+(i+1)+"]")).getText());
+            }
+        }
+    }
+
+
    @AfterTest
     public void browserclose(){
         driver.close();
